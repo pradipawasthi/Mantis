@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1C7A46BB2C4142270033010C /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7A46BA2C4142270033010C /* UIColorExtension.swift */; };
 		269AF94227437EE400F7FAF6 /* RotationDialConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269AF94127437EE400F7FAF6 /* RotationDialConfig.swift */; };
 		5F17E40A253535F300A3EB7D /* Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F17E409253535F300A3EB7D /* Orientation.swift */; };
 		5F69CC5E26C0629400568B75 /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69CC5D26C0629400568B75 /* Definition.swift */; };
@@ -144,6 +145,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C7A46BA2C4142270033010C /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		269AF94127437EE400F7FAF6 /* RotationDialConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationDialConfig.swift; sourceTree = "<group>"; };
 		5F17E409253535F300A3EB7D /* Orientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Orientation.swift; sourceTree = "<group>"; };
 		5F69CC5D26C0629400568B75 /* Definition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 				66100E0E294BAEA5001C8593 /* RotationDialProtocol.swift */,
 				66F439872978376F00728B52 /* RotationDialViewModelProtocol.swift */,
 				66F43991297A123400728B52 /* CropViewControllerDelegate.swift */,
+				1C7A46BA2C4142270033010C /* UIColorExtension.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -791,6 +794,7 @@
 				OBJ_91 /* CropDimmingView.swift in Sources */,
 				OBJ_92 /* CropMaskProtocal.swift in Sources */,
 				FEDAAD8C25205DE900D95667 /* RatioItemView.swift in Sources */,
+				1C7A46BB2C4142270033010C /* UIColorExtension.swift in Sources */,
 				665942A12877DD1C0096A5DB /* CropData.swift in Sources */,
 				FEDAAD8625205CC300D95667 /* RatioSelector.swift in Sources */,
 				OBJ_93 /* CropVisualEffectView.swift in Sources */,

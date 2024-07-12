@@ -133,7 +133,7 @@ public final class CropToolbar: UIView, CropToolbarProtocol {
     
     private lazy var procedeBtn: UIButton = {
        let button = UIButton()
-        button.backgroundColor = .yellow
+        button.backgroundColor = .init(hex: "FFDD33")
         button.layer.cornerRadius = 12
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.borderWidth = 1
