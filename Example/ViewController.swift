@@ -87,6 +87,7 @@ class ViewController: UIViewController {
         config.cropToolbarConfig.toolbarButtonOptions = [.clockwiseRotate, .reset, .ratio, .autoAdjust, .horizontallyFlip]
         config.cropViewConfig.presetTransformationType = .presetInfo(info: transform)
         config.cropViewConfig.builtInRotationControlViewType = .slideDial()
+        config.presetFixedRatioType = .alwaysUsingOnePresetFixedRatio(ratio: 0.8)
         
         let cropViewController = Mantis.cropViewController(image: image,
                                                            config: config)
@@ -250,6 +251,8 @@ class ViewController: UIViewController {
                 config.cropViewConfig.cropShapeType = item.type
                 config.cropViewConfig.cropBorderWidth = 40
                 config.cropViewConfig.cropBorderColor = .red
+                config.presetFixedRatioType = .alwaysUsingOnePresetFixedRatio(ratio: 0.8)
+
                 
                 let cropViewController = Mantis.cropViewController(image: image, config: config)
                 cropViewController.modalPresentationStyle = .fullScreen

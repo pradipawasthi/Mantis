@@ -77,7 +77,7 @@ public final class CropToolbar: UIView, CropToolbarProtocol {
     
     private lazy var cancelButton: UIButton = {
         if let icon = iconProvider?.getCancelIcon() {
-            let button = createOptionButton(withTitle: nil, andAction: #selector(cancel))
+            let button = createOptionButton(withTitle: nil, andAction: #selector(cancelBtnAction))
             button.setImage(icon, for: .normal)
             return button
         }
@@ -85,7 +85,7 @@ public final class CropToolbar: UIView, CropToolbarProtocol {
         // Here we use Mantis.Cancel as a key in case of user want to use their own
         // localized string, use this key can avoid possible key conflict
         let cancelText = LocalizedHelper.getString("Mantis.Cancel", value: "Cancel")
-        let button = createOptionButton(withTitle: cancelText, andAction: #selector(cancel))
+        let button = createOptionButton(withTitle: cancelText, andAction: #selector(cancelBtnAction))
         button.accessibilityIdentifier = "CancelButton"
         button.accessibilityLabel = cancelText
         return button
@@ -126,6 +126,8 @@ public final class CropToolbar: UIView, CropToolbarProtocol {
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.black.cgColor
         button.setTitle("Retake", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(cancelBtnAction), for: .touchUpInside)
         return button
     }()
     
@@ -138,13 +140,14 @@ public final class CropToolbar: UIView, CropToolbarProtocol {
         button.layer.borderColor = UIColor.yellow.cgColor
         button.setTitle("Procede", for: .normal)
         button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(crop(_:)), for: .touchUpInside)
         return button
     }()
     
     public func createToolbarUI(config: CropToolbarConfig) {
         self.config = config
                 
-        backgroundColor = config.backgroundColor
+        backgroundColor = .white
                 
         if #available(macCatalyst 14.0, iOS 14.0, *) {
             if UIDevice.current.userInterfaceIdiom == .mac {
@@ -159,50 +162,50 @@ public final class CropToolbar: UIView, CropToolbarProtocol {
             addButtonsToContainer(button: retakeBtn)
         }
         
-        if config.toolbarButtonOptions.contains(.counterclockwiseRotate) {
-            addButtonsToContainer(button: counterClockwiseRotationButton)
-        }
+//        if config.toolbarButtonOptions.contains(.counterclockwiseRotate) {
+//            addButtonsToContainer(button: counterClockwiseRotationButton)
+//        }
+//
+//        if config.toolbarButtonOptions.contains(.clockwiseRotate) {
+//            addButtonsToContainer(button: clockwiseRotationButton)
+//        }
+//
+//        if config.toolbarButtonOptions.contains(.alterCropper90Degree) {
+//            addButtonsToContainer(button: alterCropper90DegreeButton)
+//        }
+//        
+//        if config.toolbarButtonOptions.contains(.horizontallyFlip) {
+//            addButtonsToContainer(button: horizontallyFlipButton)
+//        }
+//        
+//        if config.toolbarButtonOptions.contains(.verticallyFlip) {
+//            addButtonsToContainer(button: verticallyFlipButton)
+//        }
+//        
+//        if config.toolbarButtonOptions.contains(.autoAdjust) {
+//            addButtonsToContainer(button: autoAdjustButton)
+//            autoAdjustButton.isHidden = true
+//            autoAdjustButtonActive = false
+//        }
 
-        if config.toolbarButtonOptions.contains(.clockwiseRotate) {
-            addButtonsToContainer(button: clockwiseRotationButton)
-        }
-
-        if config.toolbarButtonOptions.contains(.alterCropper90Degree) {
-            addButtonsToContainer(button: alterCropper90DegreeButton)
-        }
-        
-        if config.toolbarButtonOptions.contains(.horizontallyFlip) {
-            addButtonsToContainer(button: horizontallyFlipButton)
-        }
-        
-        if config.toolbarButtonOptions.contains(.verticallyFlip) {
-            addButtonsToContainer(button: verticallyFlipButton)
-        }
-        
-        if config.toolbarButtonOptions.contains(.autoAdjust) {
-            addButtonsToContainer(button: autoAdjustButton)
-            autoAdjustButton.isHidden = true
-            autoAdjustButtonActive = false
-        }
-
-        if config.toolbarButtonOptions.contains(.reset) {
-            let icon = iconProvider?.getResetIcon() ?? ToolBarButtonImageBuilder.resetImage()
-            resetButton = createResetButton(with: icon)
-            addButtonsToContainer(button: resetButton)
-            resetButton?.isHidden = true
-        }
-
-        if config.toolbarButtonOptions.contains(.ratio) && config.ratioCandidatesShowType == .presentRatioListFromButton {
-            if config.includeFixedRatiosSettingButton {
-                fixedRatioSettingButton = createSetRatioButton()
-                addButtonsToContainer(button: fixedRatioSettingButton!)
-
-                if config.presetRatiosButtonSelected {
-                    handleFixedRatioSetted(ratio: 0)
-                    resetButton?.isHidden = false
-                }
-            }
-        }
+//        if config.toolbarButtonOptions.contains(.reset) {
+//            let icon = iconProvider?.getResetIcon() ?? ToolBarButtonImageBuilder.resetImage()
+//            resetButton = createResetButton(with: icon)
+//            addButtonsToContainer(button: resetButton)
+//            resetButton?.isHidden = true
+//        }
+//
+//        if config.toolbarButtonOptions.contains(.ratio) && config.ratioCandidatesShowType == .presentRatioListFromButton {
+//            if config.includeFixedRatiosSettingButton {
+//                fixedRatioSettingButton = createSetRatioButton()
+//                addButtonsToContainer(button: fixedRatioSettingButton!)
+//
+//                if config.presetRatiosButtonSelected {
+//                    handleFixedRatioSetted(ratio: 0)
+//                    resetButton?.isHidden = false
+//                }
+//            }
+//        }
 
         if config.mode == .normal {
             addButtonsToContainer(button: procedeBtn)
@@ -261,7 +264,7 @@ public final class CropToolbar: UIView, CropToolbarProtocol {
 
 // Objc functions
 extension CropToolbar {
-    @objc private func cancel() {
+    @objc private func cancelBtnAction() {
         delegate?.didSelectCancel(self)
     }
 
@@ -380,14 +383,15 @@ extension CropToolbar {
         optionButtonStackView = UIStackView()
         addSubview(optionButtonStackView!)
 
-        optionButtonStackView?.distribution = .equalCentering
+        optionButtonStackView?.spacing = 10
+        optionButtonStackView?.distribution = .fillEqually
         optionButtonStackView?.isLayoutMarginsRelativeArrangement = true
     }
 
     private func setButtonContainerLayout() {
         optionButtonStackView?.translatesAutoresizingMaskIntoConstraints = false
-        optionButtonStackView?.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        optionButtonStackView?.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        optionButtonStackView?.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
+        optionButtonStackView?.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8).isActive = true
         optionButtonStackView?.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         optionButtonStackView?.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
     }
