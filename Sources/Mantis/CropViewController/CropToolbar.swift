@@ -118,6 +118,29 @@ public final class CropToolbar: UIView, CropToolbarProtocol {
         }
     }
     
+    private lazy var retakeBtn: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .clear
+        button.layer.cornerRadius = 12
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.black.cgColor
+        button.setTitle("Retake", for: .normal)
+        return button
+    }()
+    
+    private lazy var procedeBtn: UIButton = {
+       let button = UIButton()
+        button.backgroundColor = .yellow
+        button.layer.cornerRadius = 12
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.yellow.cgColor
+        button.setTitle("Procede", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        return button
+    }()
+    
     public func createToolbarUI(config: CropToolbarConfig) {
         self.config = config
                 
@@ -133,7 +156,7 @@ public final class CropToolbar: UIView, CropToolbarProtocol {
         setButtonContainerLayout()
 
         if config.mode == .normal {
-            addButtonsToContainer(button: cancelButton)
+            addButtonsToContainer(button: retakeBtn)
         }
         
         if config.toolbarButtonOptions.contains(.counterclockwiseRotate) {
@@ -182,7 +205,7 @@ public final class CropToolbar: UIView, CropToolbarProtocol {
         }
 
         if config.mode == .normal {
-            addButtonsToContainer(button: cropButton)
+            addButtonsToContainer(button: procedeBtn)
         }
     }
     
