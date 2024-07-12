@@ -48,6 +48,7 @@ open class CropViewController: UIViewController {
     private var ratioSelector: RatioSelector?
     private var stackView: UIStackView?
     private var cropStackView: UIStackView!
+    private var topBarStackView: UIStackView = UIStackView()
     private var initialLayout = false
     private var disableRotation = false
     
@@ -162,6 +163,7 @@ open class CropViewController: UIViewController {
             createRatioSelector()
         }
         initLayout()
+      setUpTopBar()
         updateLayout()
         showImageAutoAdjustStatusIfNeeded()
     }
@@ -398,6 +400,8 @@ extension CropViewController {
     
     private func changeStackViewOrder() {
         guard config.showAttachedCropToolbar else {
+            stackView?.removeArrangedSubview(topBarStackView)
+            stackView?.addArrangedSubview(topBarStackView)
             stackView?.removeArrangedSubview(cropStackView)
             stackView?.addArrangedSubview(cropStackView)
             return
@@ -407,6 +411,7 @@ extension CropViewController {
         stackView?.removeArrangedSubview(cropToolbar)
         
         if Orientation.treatAsPortrait || Orientation.isLandscapeRight {
+            stackView?.addArrangedSubview(topBarStackView)
             stackView?.addArrangedSubview(cropStackView)
             stackView?.addArrangedSubview(cropToolbar)
         } else if Orientation.isLandscapeLeft {
@@ -661,4 +666,36 @@ extension CropViewController: TransformDelegate {
     func updateCropState(_ cropState: CropState) {
         handleTransform(with: cropState)
     }
+}
+
+// Top bar controls
+extension CropViewController {
+  func setUpTopBar() {
+    topBarStackView.axis = .horizontal
+    topBarStackView.distribution = .equalSpacing
+    topBarStackView.backgroundColor = .black
+
+    let backBtn = UIButton()
+    backBtn.translatesAutoresizingMaskIntoConstraints = false
+    
+    let rotateBtn = UIButton()
+    if #available(iOS 13.0, *) {
+      rotateBtn.setImage(UIImage(systemName: "rotate.right")?.withTintColor(.white, renderingMode: .alwaysOriginal), for: .normal)
+    }
+    rotateBtn.translatesAutoresizingMaskIntoConstraints = false
+    rotateBtn.addTarget(self, action: #selector(rotate), for: .touchUpInside)
+    topBarStackView.addArrangedSubview(backBtn)
+    topBarStackView.addArrangedSubview(rotateBtn)
+    
+    NSLayoutConstraint.activate([
+      backBtn.widthAnchor.constraint(equalToConstant: 30),
+      backBtn.heightAnchor.constraint(equalToConstant: 30),
+      rotateBtn.heightAnchor.constraint(equalToConstant: 30),
+      rotateBtn.widthAnchor.constraint(equalToConstant: 30)
+    ])
+  }
+  
+  @objc func rotate() {
+    handleRotate(withRotateType: .clockwise)
+  }
 }

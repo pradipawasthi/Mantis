@@ -276,7 +276,6 @@ class ViewController: UIViewController {
         }
         
         var config = Mantis.Config()
-        config.cropViewConfig.cropMaskVisualEffectType = effect
         let cropViewController = Mantis.cropViewController(image: image,
                                                            config: config)
         cropViewController.modalPresentationStyle = .fullScreen
