@@ -138,7 +138,7 @@ public final class CropToolbar: UIView, CropToolbarProtocol {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.yellow.cgColor
-        button.setTitle("Procede", for: .normal)
+        button.setTitle("Proceed", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(crop(_:)), for: .touchUpInside)
         return button
